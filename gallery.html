@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mansion Rental Gallery</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <style>
+
+
+
+
+
+       /* Reset styles for better consistency */
+       *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Global styles with background animation */
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #333333;
+      line-height: 1.6;
+      overflow-x: hidden;
+      animation: backgroundAnimation 30s infinite alternate linear;
+    }
+
+    @keyframes backgroundAnimation {
+      0% { background-color: #404040; } /* Darker Grey */
+      25% { background-color: #2c2c2c; } /* Even Darker Grey */
+      50% { background-color: #1a1a1a; } /* Even Darker Grey */
+      75% { background-color: #121212; } /* Dark Grey */
+      100% { background-color: #0d0d0d; } /* Slightly Dark Grey */
+    }
+
+    /* Header styles with adjusted menu shape size */
+    header {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 120px;
+      padding: 0 20px;
+      background-color: transparent;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    .nav-btn {
+      background-color: #404040;
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background-color: #1a1a1a;
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(14, 13, 13, 0.7);
+    }
+
+    /* Slideshow section styles */
+    .slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 90%;
+      display: flex;
+      transition: transform 1s ease;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    /* Gallery section styles */
+    #gallery {
+      padding: 90px;
+      text-align: center;
+      background-color: #404040;
+      margin-top: 80px; /* Match the height of the header and slideshow */
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px; /* Padding is excellent for a nice layout */
+    }
+
+    .gallery-title {
+      font-size: 48px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 50px;
+      text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+      justify-items: center;
+      padding-top: 30px;
+    }
+
+    .gallery-item {
+      width: 300px;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.1);
+    }
+    /* Hide the header on scroll */
+    .hide-on-scroll {
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .show-on-scroll {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header class="show-on-scroll">
+    <nav>
+      <ul>
+        <li><a href="index.html" class="nav-btn">Home</a></li>
+        <li><a href="gallery.html" class="nav-btn">Gallery</a></li>
+        <li><a href="about.html" class="nav-btn">About</a></li>
+        <li><a href="#" class="nav-btn">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content Section -->
+  <main>
+
+    <!-- Slideshow Section -->
+    <section class="slideshow-container">
+      <!-- Slides -->
+      <div class="slide active">
+        <img src="slide1.jpg" alt="Slide 1">
+      </div>
+      <div class="slide">
+        <img src="slide2.jpg" alt="Slide 2">
+      </div>
+      <div class="slide">
+        <img src="slide3.jpg" alt="Slide 3">
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+      <div class="container">
+        <h2 class="gallery-title">Explore Our Mansion</h2>
+        <div class="gallery-grid">
+          <!-- Add 21 images for the gallery -->
+          <div class="gallery-item">
+            <img class="gallery-img" src="image1.jpg" alt="Image 1">
+          </div>
+          <div class="gallery-item">
+            <img class="gallery-img" src="image2.jpg" alt="Image 2">
+          </div>
+          <div class="gallery-item">
+            <img class="gallery-img" src="image3.jpg" alt="Image 3">
+          </div>
+          <!-- Add more images here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-content">
+      <p class="footer-text">&copy; 2030 Mansion Rental. All rights reserved.</p>
+      <div class="social-media">
+        <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+        <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+        <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Slideshow Logic
+    const slides = document.querySelectorAll(".slide");
+    let slideIndex = 0;
+
+    function showSlide() {
+      slides.forEach((slide) => slide.classList.remove('active'));
+      slideIndex = (slideIndex + 1) % slides.length;
+      slides[slideIndex].classList.add('active');
+      setTimeout(showSlide, 7000);
+    }
+
+    showSlide();
+
+    // Hide/show the header on scroll
+    let prevScrollPos = window.pageYOffset;
+
+    window.onscroll = function() {
+      let currentScrollPos = window.pageYOffset;
+      if (prevScrollPos > currentScrollPos) {
+        document.querySelector("header").classList.remove('hide-on-scroll');
+        document.querySelector("header").classList.add('show-on-scroll');
+      } else {
+        document.querySelector("header").classList.remove('show-on-scroll');
+        document.querySelector("header").classList.add('hide-on-scroll');
+      }
+      prevScrollPos = currentScrollPos;
+    };
+  </script>
+</body>
+
+</html>

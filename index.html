@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Andreas Home</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  
+  <!-- Include Leaflet CSS and JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  
+  <style>
+    /* Reset styles for better consistency */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+   /* Global styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333333;
+  line-height: 1.6;
+  overflow-x: hidden;
+  animation: backgroundAnimation 30s infinite alternate linear;
+}
+
+@keyframes backgroundAnimation {
+  0% { background-color: #d3d3d3; } /* Light Grey */
+  25% { background-color: #a9a9a9; } /* Dark Grey */
+  50% { background-color: #808080; } /* Gray */
+  75% { background-color: #696969; } /* Dim Grey */
+  100% { background-color: #c0c0c0; } /* Silver */
+}
+
+    /* Header styles */
+    header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      height: 120px;
+      padding: 0 20px;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .nav-btn {
+      background-color: #404040;
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background-color: #1a1a1a;
+      transform: scale(1.1);
+      box-shadow: 0 20px rgba(14, 13, 13, 0.7);
+    }
+
+    /* Hero section styles */
+    #hero {
+    position: relative;
+    overflow: hidden;
+    height:300vh; /* Use viewport height */
+  }
+
+  .video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 250vh;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  #bgvid {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  #hero {
+  margin-bottom: -1px; /* Add a negative margin to overlap with the next section */
+}
+
+
+    /* Features section styles */
+    #features {
+      padding: 80px 0;
+      text-align: center;
+      background-color: #FFFFFF;
+    }
+
+    .feature {
+      margin-bottom: 50px;
+    }
+
+    .feature img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature h2 {
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .feature p {
+      font-size: 18px;
+      color: #777777;
+      margin-bottom: 30px;
+    }
+
+    /* Booking section styles */
+    #booking {
+      padding: 100px 0;
+      text-align: center;
+      background-color: #F5E9D6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .container h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .container p {
+      font-size: 20px;
+      color: #777777;
+      margin-bottom: 50px;
+    }
+
+    .form-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      padding: 10px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+      width: 200px;
+    }
+
+    .btn {
+      background-color: #FF934C;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #FF7A6C;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255, 122, 108, 0.5);
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: #FFBF8C;
+      color: #FFFFFF;
+      padding: 20px;
+      text-align: center;
+    }
+
+      /* Navigation styles */
+
+
+ /* Navigation styles for top-left menu */
+ .top-left-menu {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .nav-btn {
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Home button */
+    .nav-btn.home {
+      background-color: #d3d3d3; /* Light Grey */
+    }
+
+    /* Gallery button */
+    .nav-btn.gallery {
+      background-color: #a9a9a9; /* Dark Grey */
+    }
+
+    /* About button */
+    .nav-btn.about {
+      background-color: #808080; /* Gray */
+    }
+
+    /* Contact button */
+    .nav-btn.contact {
+      background-color: #696969; /* Dim Grey */
+    }
+
+    .nav-btn:hover {
+      background-color: #FF934C;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255, 147, 76, 0.4);
+    }
+
+
+   /* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  top: 50px;
+  left: 0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #333333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+
+  /* Hero section styles */
+  #hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin: 0; /* Remove margin */
+      padding: 0; /* Remove padding */
+    }
+
+    .slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      transition: transform 1s ease;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Navigation styles for slideshow */
+    .prev,
+    .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #FFFFFF;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+
+/* Align text to the top */
+.top-aligned {
+  align-self: flex-start;
+}
+
+/* Adjust the margin for the title */
+.hero-title {
+  margin-bottom: 10px;
+  margin-top: 30px; /* Add margin to move the title to the top */
+}
+
+
+    /* Reviews Section */
+    #reviews {
+      background-color: #d3d3d3; /* Light Grey */
+      padding: 100px 0;
+    }
+
+    .review {
+      width: 30%;
+      background-color: #808080; /* Gray */
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin: 10px;
+    }
+
+    .review:nth-child(2n) {
+      background-color: #a9a9a9; /* Dark Grey */
+    }
+
+    .review:nth-child(3n) {
+      background-color: #696969; /* Dim Grey */
+    }
+  
+
+    /* Adjust the spacing as needed */
+.booking-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px; /* Add spacing between each option */
+}
+
+.option img {
+  width: 50px; /* Adjust the size of the icons as needed */
+  height: 50px;
+  margin-bottom: 10px; /* Add spacing between the icon and the text */
+}
+
+
+ /* CSS styles for the map container */
+ #map-container {
+      height: 400px;
+      width: 100%;
+    }
+
+
+     /* Animation for hero section text */
+  .animated-text {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 1s ease-out forwards;
+  }
+
+  .highlight {
+    color: #FF7A6C; /* Highlight color */
+  }
+
+  @keyframes slideInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  </style>
+
+<body>
+  <!-- Header Section -->
+
+  <!-- Main Content Section -->
+  <main>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="video-container">
+        <video autoplay muted loop poster="video-poster.jpg" id="bgvid">
+          <source src="video.mp4" type="video/mp4">
+          <!-- Add more source elements for different video formats if needed -->
+        </video>
+      </div>
+    </section>
+
+    
+  <!-- Header Section -->
+  <header>
+    <nav class="top-left-menu">
+      <div class="dropdown">
+        <button class="nav-btn dropdown-toggle">Menu</button>
+        <div class="dropdown-content">
+          <a href="index.html" class="nav-btn">Home</a>
+          <a href="gallery.html" class="nav-btn">Gallery</a>
+          <a href="about.html" class="nav-btn">About</a>
+          <a href="contact.html" class="nav-btn">Contact</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- Main Content Section -->
+  <main>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="slideshow">
+        <div class="slide" style="background-image: url('hero-img1.jpg');"></div>
+        <div class="slide" style="background-image: url('hero-img2.jpg');"></div>
+        <div class="slide" style="background-image: url('hero-img3.jpg');"></div>
+        <!-- Add more slide divs with different image URLs as needed -->
+      </div>
+     <div class="hero-content top-aligned">
+  <h1 class="animated-text hero-title">Welcome to <span class="highlight">San Andreas Home</span></h1>
+  <p class="animated-text">Experience elegance and grandeur like never before.</p>
+  <a href="#" class="btn">Book Now</a>
+</div>
+
+      <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+      <a class="next" onclick="moveSlide(1)">&#10095;</a>
+    </section>
+    
+    <!-- Features Section -->
+    <section id="features">
+      <div class="container">
+        <div class="feature">
+          <img src="image1.jpg" alt="Feature 1">
+          <img src="image1.1.jpg" alt="Feature 1.1">
+          <img src="image1.2.jpg" alt="Feature 1.2">
+
+          <h2>Spacious Rooms</h2>
+          <p>Indulge in the comfort of our beautifully designed spacious rooms.</p>
+          <div class="feature">
+            <img src="image2.jpg" alt="Feature 2">
+            <img src="image2.1.jpg" alt="Feature 2.1">
+            <img src="image2.2.jpg" alt="Feature 2.2">
+
+            <h2>State-of-the-Art Facilities</h2>
+            <p>Enjoy modern amenities and facilities for your convenience.</p>
+          </div>
+          <div class="feature">
+            <img src="image3.jpg" alt="Feature 3">
+            <img src="image3.1.jpg" alt="Feature 3.1">
+            <img src="image3.2.jpg" alt="Feature 3.2">
+
+            <h2>Stunning Event Spaces</h2>
+            <p>Host memorable events in our exquisite event spaces.</p>
+          </div>
+        </div>
+      </section>
+  
+      <!-- Booking Section -->
+      <section id="booking">
+        <div class="container">
+            <h2>Book Your Stay</h2>
+            <p>Experience luxury at its finest. Reserve your stay today.</p>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="special-request" placeholder="Kindly, Let us Know How We May Be Of Assistance" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn">Book Now</button>
+            </form>
+
+      <div class="booking-options">
+        <div class="option">
+          <img src="bed.png" alt="Bird Icon">
+          <p>Sleeps up to 15+</p>
+        </div>
+        <div class="option">
+          <img src="wifi.png" alt="Wi-Fi Icon">
+          <p>Wi-Fi Available</p>
+        </div>
+        <div class="option">
+          <img src="views.png" alt="Amazing View Icon">
+          <p>Amazing View</p>
+        </div>
+        <div class="option">
+          <img src="parking.png" alt="Ample Parking Icon">
+          <p>Ample Parking</p>
+        </div>
+      </div>
+
+      <div class="social-media-icons">
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </section>
+  <section id="Home">
+    <div class="container">
+
+
+<!-- Maps Section -->
+<section id="maps">
+  <h2>Find Us</h2>
+  <div id="map-container"></div>
+  <script>
+    // Initialize and display the map
+    var map = L.map('map-container').setView([-1.1322, 37.0198], 15); // Replace with Thika Road Mall coordinates and desired zoom level
+
+    // Add the OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Add a marker at Thika Road Mall
+    L.marker([-1.205738, 36.892586]).addTo(map)
+      .bindPopup('San Andreas Home')
+      .openPopup();
+  </script>
+</section>
+
+
+      <!-- Home content goes here -->
+    </div>
+  </section>
+ 
+ <!-- Reviews Section -->
+ <section id="reviews">
+  <div class="container" style="display: flex; justify-content: space-around;">
+    <div class="review">
+      <h3 style="color: #FFFFFF; font-size: 24px; margin-bottom: 20px;">John Doe</h3>
+      <p style="color: #333333; font-size: 20px; line-height: 1.6;">
+        "The Mansion Rental exceeded all my expectations. The rooms were luxurious, the staff was attentive, and the facilities were top-notch. I had a wonderful experience and will definitely be coming back!"
+      </p>
+    </div>
+    <div class="review">
+      <h3 style="color: #FFFFFF; font-size: 24px; margin-bottom: 20px;">Jane Smith</h3>
+      <p style="color: #333333; font-size: 20px; line-height: 1.6;">
+        "I hosted my wedding at The Mansion Rental, and it was a dream come true. The event spaces were stunning, and the staff went above and beyond to make our special day perfect. I highly recommend this place for any event."
+      </p>
+    </div>
+    <div class="review">
+      <h3 style="color: #FFFFFF; font-size: 24px; margin-bottom: 20px;">Mike Johnson</h3>
+      <p style="color: #333333; font-size: 20px; line-height: 1.6;">
+        "The Mansion Rental provided an unforgettable vacation for my family. The spacious rooms and state-of-the-art facilities kept us comfortable and entertained throughout our stay. The location is perfect, and we had a blast. We will be back for sure!"
+      </p>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2030 Mansion Rental. All rights reserved.</p>
+  </footer>
+  
+  <script src="script.js"></script> <!-- Link to your JavaScript file -->
+  
+  <script>
+    let slideIndex = 1;
+    showSlide(slideIndex);
+
+    function moveSlide(n) {
+      showSlide(slideIndex += n);
+    }
+
+    function showSlide(n) {
+      let slides = document.getElementsByClassName("slide");
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length;
+      }
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex - 1].style.display = "block";
+    }
+  </script>
+
+</body>
+  </html>
